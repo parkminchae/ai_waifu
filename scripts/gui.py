@@ -138,5 +138,17 @@ class App(ctk.CTk):
         self.opengl_frame.animate = 1
         self.opengl_frame.grid(row=0, column=0, sticky="nsew")
 
+        self.opengl_frame.bind("<Button-1>", self.start_drag)
+        self.opengl_frame.bind("<B1-Motion>", self.do_drag)
+
+    def start_drag(self, event):
+        self.drag_start_x = event.x
+        self.drag_start_y = event.y
+
+    def do_drag(self, event):
+        new_x = event.x_root - self.drag_start_x
+        new_y = event.y_root - self.drag_start_y
+        self.l2d_widgets.geometry(f"500x500+{new_x}+{new_y}")
+
     def run(self):
         self.mainloop()
