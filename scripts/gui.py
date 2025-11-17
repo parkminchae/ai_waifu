@@ -42,7 +42,7 @@ class App(ctk.CTk):
         self.frame_right = ctk.CTkFrame(self, corner_radius=0)
         self.frame_right.grid(row=1, column=1, sticky="nsew")
         self.setup_l2d_frame()
-        self.create_l2d_widgets()
+        self.after(100, self.create_l2d_widgets)
 
     def create_head_widgets(self):
         self.theme_toggle = ctk.CTkSwitch(self.frame_head, text=self.theme, command=self.toggle_theme)
@@ -125,12 +125,16 @@ class App(ctk.CTk):
         self.frame_right.grid_rowconfigure(0, weight=1)
 
     def create_l2d_widgets(self):
-        # live2d 부모 프레임
-        self.l2d_frame = ctk.CTkFrame(self.frame_right)
-        self.l2d_frame.grid(row=0, column=0)
+        x = self.frame_right.winfo_rootx() + (self.frame_right.winfo_width() // 2) - 250
+        y = self.frame_right.winfo_rooty() + (self.frame_right.winfo_height() // 2) - 250
 
-        # live2d 프레임
-        self.opengl_frame = live2d_frame(self.l2d_frame, height=500, width=500)
+        self.l2d_widgets = ctk.CTkToplevel(self)
+        self.l2d_widgets.geometry(f"500x500+{x}+{y}")
+        self.l2d_widgets.attributes("-transparentcolor", "black")
+        self.l2d_widgets.attributes("-topmost", True)
+        self.l2d_widgets.overrideredirect(True)
+
+        self.opengl_frame = live2d_frame(self.l2d_widgets, height=500, width=500)
         self.opengl_frame.animate = 1
         self.opengl_frame.grid(row=0, column=0, sticky="nsew")
 
