@@ -45,10 +45,6 @@ class live2d_frame(OpenGLFrame):
 
         self.model.Update()
         self.model.Drag(x, y)
-
-        if self.model.HitTest("Body", x, y):
-            self.model.StartRandomMotion("TapBody")
-
         self.model.Draw()
 
         sleep(1 / 240)
