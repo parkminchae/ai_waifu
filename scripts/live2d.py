@@ -3,6 +3,8 @@ from time import sleep
 
 import live2d.v3 as live2d
 import pyautogui
+
+# from live2d.utils.lipsync import WavHandler
 from pyopengltk import OpenGLFrame
 
 import resources
@@ -42,5 +44,5 @@ class live2d_frame(OpenGLFrame):
         self.model.Update()
         self.model.Drag(x, y)
         self.model.Draw()
-        # # 控制帧率
+
         sleep(1 / 240)
