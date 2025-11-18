@@ -33,16 +33,22 @@ class live2d_frame(OpenGLFrame):
         self.model.Resize(self.height, self.width)
         self.model.SetScale(1)
 
+        self.model.SetAutoBlinkEnable(True)
+
     def redraw(self):
         # """Render a single frame"""
         live2d.clearBuffer()
 
         screen_x, screen_y = pyautogui.position()
         x = screen_x - self.winfo_rootx()
-        y = screen_y - self.winfo_rooty()
+        y = screen_y - self.winfo_rooty() + 150
 
         self.model.Update()
         self.model.Drag(x, y)
+
+        if self.model.HitTest("Body", x, y):
+            self.model.StartRandomMotion("TapBody")
+
         self.model.Draw()
 
         sleep(1 / 240)
