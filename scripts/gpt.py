@@ -3,6 +3,7 @@ import os
 import dotenv
 import yaml
 from openai import OpenAI
+from pydantic import BaseModel
 
 dotenv.load_dotenv()
 
@@ -16,15 +17,28 @@ exp = os.path.expandvars(raw)
 conf = yaml.safe_load(exp)
 
 client = OpenAI(api_key=conf["key"])
+model = conf["model"]
 
 
-# gpt 출력
-def get_gpt(model, chat_log=None):
+class CalendarEvent(BaseModel):
+    contents: str
+    expression: str
+
+
+def get_gpt(chat_log=None):
     if chat_log is None:
         chat_log = []
-    message = [
-        {"role": "system", "content": conf["persona_prompt"]},
-        {"role": "assistant", "content": "한글로 대답"},
-    ] + chat_log
-    result = client.chat.completions.create(model=model, messages=message).choices[0].message.content
-    return result
+    response = client.responses.parse(
+        model=model,
+        input=[
+            {"role": "system", "content": conf["persona_prompt"]},
+            {
+                "role": "assistant",
+                "content": "한글로 대답하고 모션은 화났을때 'angry', 슬플떄 'cry', 삐졌을떄 'white_eyes', 항복 'qizi1' 으로 해줘.",
+            },
+        ]
+        + chat_log,
+        text_format=CalendarEvent,
+    )
+
+    return response.output_parsed

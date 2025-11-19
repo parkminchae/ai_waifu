@@ -60,3 +60,10 @@ class live2d_frame(OpenGLFrame):
         self.model.Draw()
 
         sleep(1 / 240)
+
+    def setmotion(self, text):
+        self.model.ResetExpressions()
+        self.model.AddExpression(text)
+
+    def resetmotion(self):
+        self.model.ResetExpressions()

@@ -12,28 +12,28 @@
     "DisplayInfo": "huohuo.cdi3.json",
     "Expressions": [
       {
-        "Name": "angry.exp3.json",
+        "Name": "angry",
         "File": "expressions/angry.exp3.json"
       },
       {
-        "Name": "baozhen.exp3.json",
+        "Name": "baozhen",
         "File": "expressions/baozhen.exp3.json"
       },
       {
-        "Name": "cry.exp3.json",
+        "Name": "cry",
         "File": "expressions/cry.exp3.json"
       },
 
       {
-        "Name": "qizi1.exp3.json",
+        "Name": "qizi1",
         "File": "expressions/qizi1.exp3.json"
       },
       {
-        "Name": "qizi2.exp3.json",
+        "Name": "qizi2",
         "File": "expressions/qizi2.exp3.json"
       },
       {
-        "Name": "white_eyes.exp3.json",
+        "Name": "white_eyes",
         "File": "expressions/white_eyes.exp3.json"
       }
     ],
