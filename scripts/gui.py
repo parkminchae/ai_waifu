@@ -114,7 +114,8 @@ class App(ctk.CTk):
         self.message_callback(text, chatbot_text)
         self.bot_return = chatbot_text.get()
         self.bot_response = self.bot_return.contents
-        self.bot_motion = self.bot_return.expression
+        self.bot_motion = self.bot_return.motion
+        self.bot_expression = self.bot_return.expression
 
         if self.check_tts.get() == "on":
             thread = threading.Thread(target=self.play_tts, args=(self.bot_response,), daemon=True)
@@ -125,9 +126,14 @@ class App(ctk.CTk):
         audio_path = save_tts(text)
         self.textbox.after(0, self._display_bot_response, self.bot_response)
 
-        self.opengl_frame.setmotion(self.bot_return.expression)
+        if self.bot_expression != "Noexp":
+            self.opengl_frame.setexpression(self.bot_expression)
+        if self.bot_motion != "Nomotion":
+            self.opengl_frame.setmotion(self.bot_motion)
+
         self.opengl_frame.start_tts(audio_path)
-        self.opengl_frame.after(500, self.opengl_frame.resetmotion)
+
+        self.opengl_frame.after(500, self.opengl_frame.resetexpression)
         if os.path.exists(audio_path):
             os.remove(audio_path)
 

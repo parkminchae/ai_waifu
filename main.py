@@ -1,6 +1,6 @@
 import dotenv
 
-from scripts.gpt import conf, get_gpt
+from scripts.gpt import get_gpt
 from scripts.gui import App
 
 dotenv.load_dotenv()
