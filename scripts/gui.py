@@ -99,6 +99,11 @@ class App(ctk.CTk):
         self.textbox.configure(state="disabled")
         self.textbox.see("end")
 
+        self.textbox.configure(state="normal")
+        self.textbox.insert("end", f"{self.bot_name}\n....\n\n")
+        self.textbox.configure(state="disabled")
+        self.textbox.see("end")
+
         thread = threading.Thread(target=self._run_callback, args=(text,), daemon=True)
         thread.daemon = True
         thread.start()
@@ -106,23 +111,24 @@ class App(ctk.CTk):
     def _run_callback(self, text):
         chatbot_text = queue.Queue()
         self.message_callback(text, chatbot_text)
-        bot_response = chatbot_text.get()
-        self.textbox.after(0, self._display_bot_response, bot_response)
-
-    def _display_bot_response(self, text):
-        self.textbox.configure(state="normal")
-        self.textbox.insert("end", f"{self.bot_name}\n{text}\n\n")
-        self.textbox.configure(state="disabled")
-        self.textbox.see("end")
+        self.bot_response = chatbot_text.get()
 
         if self.check_tts.get() == "on":
-            thread = threading.Thread(target=self.play_tts, args=(text,), daemon=True)
+            thread = threading.Thread(target=self.play_tts, args=(self.bot_response,), daemon=True)
             thread.daemon = True
             thread.start()
 
     def play_tts(self, text):
         audio_path = save_tts(text)
+        self.textbox.after(0, self._display_bot_response, self.bot_response)
         self.opengl_frame.start_tts(audio_path)
+
+    def _display_bot_response(self, text):
+        self.textbox.configure(state="normal")
+        self.textbox.delete("end - 4 lines", "end")
+        self.textbox.insert("end", f"\n{self.bot_name}\n{text}\n\n")
+        self.textbox.configure(state="disabled")
+        self.textbox.see("end")
 
     def setup_l2d_frame(self):
         self.frame_right.grid_columnconfigure(0, weight=1)
