@@ -54,7 +54,7 @@ class live2d_frame(OpenGLFrame):
         y = screen_y - self.winfo_rooty() + 150
 
         self.model.Update()
-        if wavHandler.Update():  # 获取 wav 下一帧片段的响度（Rms），如果没有下一帧片段则为False（音频已播放完毕）
+        if wavHandler.Update():
             self.model.SetParameterValue("ParamMouthOpenY", wavHandler.GetRms() * lipSyncN)
         self.model.Drag(x, y)
         self.model.Draw()

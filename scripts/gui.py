@@ -23,12 +23,12 @@ class App(ctk.CTk):
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
         self.title("ai_waifu")
-        self.geometry("1200x800")
+        self.geometry("400x800")
         self.resizable(0, 0)
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=15)
         self.grid_columnconfigure(0, weight=2)
-        self.grid_columnconfigure(1, weight=5)
+        # self.grid_columnconfigure(1, weight=5)
 
     def create_main_frames(self):
         self.frame_head = ctk.CTkFrame(self, corner_radius=0, height=1)
@@ -40,9 +40,9 @@ class App(ctk.CTk):
         self.setup_chat_frame()
         self.create_chat_widgets()
 
-        self.frame_right = ctk.CTkFrame(self, corner_radius=0)
-        self.frame_right.grid(row=1, column=1, sticky="nsew")
-        self.setup_l2d_frame()
+        # self.frame_right = ctk.CTkFrame(self, corner_radius=0)
+        # self.frame_right.grid(row=1, column=1, sticky="nsew")
+        # self.setup_l2d_frame()
         self.after(100, self.create_l2d_widgets)
 
     def create_head_widgets(self):
@@ -145,16 +145,16 @@ class App(ctk.CTk):
         self.textbox.configure(state="disabled")
         self.textbox.see("end")
 
-    def setup_l2d_frame(self):
-        self.frame_right.grid_columnconfigure(0, weight=1)
-        self.frame_right.grid_rowconfigure(0, weight=1)
+    # def setup_l2d_frame(self):
+    #     self.frame_right.grid_columnconfigure(0, weight=1)
+    #     self.frame_right.grid_rowconfigure(0, weight=1)
 
     def create_l2d_widgets(self):
-        x = self.frame_right.winfo_rootx() + (self.frame_right.winfo_width() // 2) - 250
-        y = self.frame_right.winfo_rooty() + (self.frame_right.winfo_height() // 2) - 250
+        # x = self.frame_right.winfo_rootx() + (self.frame_right.winfo_width() // 2) - 250
+        # y = self.frame_right.winfo_rooty() + (self.frame_right.winfo_height() // 2) - 250
 
         self.l2d_widgets = ctk.CTkToplevel(self)
-        self.l2d_widgets.geometry(f"500x500+{x}+{y}")
+        self.l2d_widgets.geometry("500x500")
         self.l2d_widgets.attributes("-transparentcolor", "black")
         self.l2d_widgets.attributes("-topmost", True)
         self.l2d_widgets.overrideredirect(True)
