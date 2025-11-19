@@ -1,3 +1,4 @@
+import os
 import queue
 import threading
 
@@ -122,6 +123,9 @@ class App(ctk.CTk):
         audio_path = save_tts(text)
         self.textbox.after(0, self._display_bot_response, self.bot_response)
         self.opengl_frame.start_tts(audio_path)
+
+        if os.path.exists(audio_path):
+            os.remove(audio_path)
 
     def _display_bot_response(self, text):
         self.textbox.configure(state="normal")
