@@ -5,7 +5,7 @@ import customtkinter as ctk
 
 from scripts.gpt import conf
 from scripts.live2d import live2d_frame
-from scripts.tts import play_tts
+from scripts.tts import save_tts
 
 
 class App(ctk.CTk):
@@ -116,9 +116,13 @@ class App(ctk.CTk):
         self.textbox.see("end")
 
         if self.check_tts.get() == "on":
-            thread = threading.Thread(target=play_tts, args=(text,), daemon=True)
+            thread = threading.Thread(target=self.play_tts, args=(text,), daemon=True)
             thread.daemon = True
             thread.start()
+
+    def play_tts(self, text):
+        audio_path = save_tts(text)
+        self.opengl_frame.start_tts(audio_path)
 
     def setup_l2d_frame(self):
         self.frame_right.grid_columnconfigure(0, weight=1)

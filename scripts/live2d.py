@@ -3,11 +3,15 @@ from time import sleep
 
 import live2d.v3 as live2d
 import pyautogui
-
-# from live2d.utils.lipsync import WavHandler
+import scipy.io.wavfile
+import sounddevice as sd
+from live2d.utils.lipsync import WavHandler
 from pyopengltk import OpenGLFrame
 
 import resources
+
+wavHandler = WavHandler()
+lipSyncN = 3
 
 
 class live2d_frame(OpenGLFrame):
@@ -35,6 +39,12 @@ class live2d_frame(OpenGLFrame):
 
         self.model.SetAutoBlinkEnable(True)
 
+    def start_tts(self, audio_path):
+        v_samplerate, v_data = scipy.io.wavfile.read(audio_path)
+        sd.play(v_data, v_samplerate)
+        wavHandler.Start(audio_path)
+        sd.wait()
+
     def redraw(self):
         # """Render a single frame"""
         live2d.clearBuffer()
@@ -44,6 +54,8 @@ class live2d_frame(OpenGLFrame):
         y = screen_y - self.winfo_rooty() + 150
 
         self.model.Update()
+        if wavHandler.Update():  # 获取 wav 下一帧片段的响度（Rms），如果没有下一帧片段则为False（音频已播放完毕）
+            self.model.SetParameterValue("ParamMouthOpenY", wavHandler.GetRms() * lipSyncN)
         self.model.Drag(x, y)
         self.model.Draw()
 
