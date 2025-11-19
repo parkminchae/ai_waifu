@@ -62,13 +62,11 @@ class live2d_frame(OpenGLFrame):
         sleep(1 / 240)
 
     def setexpression(self, text):
-        self.model.AddExpression(text)
+        self.model.ResetExpression()
+        self.model.SetExpression(text)
 
     def setmotion(self, text):
         self.model.StartRandomMotion(text)
 
     def resetexpression(self):
-        self.model.StopAllMotions()
         self.model.ResetExpression()
-        self.model.ResetParameters()
-        self.model.StopAllMotions()

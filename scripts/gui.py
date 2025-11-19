@@ -133,7 +133,8 @@ class App(ctk.CTk):
 
         self.opengl_frame.start_tts(audio_path)
 
-        self.opengl_frame.after(500, self.opengl_frame.resetexpression)
+        self.opengl_frame.after(1000, self.opengl_frame.resetexpression)
+
         if os.path.exists(audio_path):
             os.remove(audio_path)
 
